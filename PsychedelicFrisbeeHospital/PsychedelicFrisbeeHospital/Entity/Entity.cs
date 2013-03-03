@@ -4,9 +4,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Engine
 {
-    public class Player : Entity
+    public class Entity
     {
         #region Members
+
+        Vector2 Position { get; set; }
 
         #endregion
 

@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Engine
 {
     public class LevelSelector : Screen
     {
         #region Members
+
+        private Random Rand = new Random(DateTime.Now.Millisecond);
 
         #endregion
 
@@ -50,11 +53,25 @@ namespace Engine
 
         #region Draw
 
+        double CurrentGameTime = 0;
+        double PreviousGameTime = 0;
+        Color BCol = Color.Black;
+
         public override void Draw(GameTime gameTime)
         {
             if (Draws)
             {
-                Game1.Manager.GraphicsDevice.Clear(Color.Green);
+                #region Background
+                CurrentGameTime = gameTime.TotalGameTime.TotalSeconds;
+                if (CurrentGameTime - PreviousGameTime > 0.25)
+                {
+                    BCol = new Color((float)Rand.NextDouble(), (float)Rand.NextDouble(), (float)Rand.NextDouble());
+                    PreviousGameTime = CurrentGameTime;
+                }
+
+                Game1.Manager.GraphicsDevice.Clear(BCol);
+                #endregion
+
             }
         }
 

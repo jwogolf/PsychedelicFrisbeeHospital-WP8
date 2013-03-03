@@ -64,6 +64,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class.cs" />
     <Compile Include="Engine\Constants.cs" />
     <Compile Include="Engine\GameState.cs" />
     <Compile Include="Engine\Graphics.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Engine\Screen1.cs" />
     <Compile Include="Engine\Special Screens\GameSettings.cs" />
     <Compile Include="Engine\Special Screens\LoadingScreen.cs" />
+    <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Player.cs" />
     <Compile Include="Levels\GameScreen.cs" />
     <Compile Include="Levels\LevelSelector.cs" />
@@ -88,7 +90,7 @@
     <Content Include="PhoneGameThumb.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
-    <Content Include="Engine\Background.png">
+    <Content Include="Background.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
   </ItemGroup>

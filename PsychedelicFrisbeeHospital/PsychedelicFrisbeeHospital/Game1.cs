@@ -22,6 +22,9 @@ namespace Engine
             IServiceProvider = Content.ServiceProvider;
             Content.RootDirectory = "Content";
 
+            int width = Manager.PreferredBackBufferWidth;
+            int height = Manager.PreferredBackBufferHeight;
+
             Manager.SynchronizeWithVerticalRetrace = true;
             IsFixedTimeStep = true;
             IsMouseVisible = true;
