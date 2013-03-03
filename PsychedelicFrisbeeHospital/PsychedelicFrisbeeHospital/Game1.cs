@@ -7,34 +7,36 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 
-namespace PsychedelicFrisbeeHospital
+namespace Engine
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public static IServiceProvider IServiceProvider { get; set; }
+        public static GraphicsDeviceManager Manager { get; set; }
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Manager = new GraphicsDeviceManager(this);
+            IServiceProvider = Content.ServiceProvider;
             Content.RootDirectory = "Content";
 
+            Manager.SynchronizeWithVerticalRetrace = true;
+            IsFixedTimeStep = true;
+            IsMouseVisible = true;
 
-            TargetElapsedTime = TimeSpan.FromTicks(333333);
-            InactiveSleepTime = TimeSpan.FromSeconds(1);
+            Manager.ApplyChanges();
         }
 
         protected override void Initialize()
         {
+            GameState.AddScreen(new LoadingScreen(new LevelSelector()));
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -47,17 +49,36 @@ namespace PsychedelicFrisbeeHospital
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            GameState.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-
+            GameState.Draw(gameTime);
 
             base.Draw(gameTime);
         }
     }
+
+
+    #region Entry Point
+
+#if WINDOWS || XBOX
+
+    static class EntryPoint
+    {
+        static void Main()
+        {
+            using (Game1 game = new Game1())
+            {
+                game.Run();
+            }
+        }
+    }
+
+#endif
+
+    #endregion
 }

@@ -64,6 +64,16 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Constants.cs" />
+    <Compile Include="Engine\GameState.cs" />
+    <Compile Include="Engine\Graphics.cs" />
+    <Compile Include="Engine\Input.cs" />
+    <Compile Include="Engine\Screen1.cs" />
+    <Compile Include="Engine\Special Screens\GameSettings.cs" />
+    <Compile Include="Engine\Special Screens\LoadingScreen.cs" />
+    <Compile Include="Entity\Player.cs" />
+    <Compile Include="Levels\GameScreen.cs" />
+    <Compile Include="Levels\LevelSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -78,7 +88,7 @@
     <Content Include="PhoneGameThumb.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
-    <Content Include="Background.png">
+    <Content Include="Engine\Background.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
   </ItemGroup>
@@ -88,6 +98,7 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
