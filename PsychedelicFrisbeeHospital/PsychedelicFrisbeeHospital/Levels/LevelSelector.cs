@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace Engine
 {
@@ -8,6 +10,9 @@ namespace Engine
         #region Members
 
         private Random Rand = new Random(DateTime.Now.Millisecond);
+   
+        Dictionary<string, Texture2D> Backgrounds { get; set; }
+        Dictionary<string, Texture2D> Characters { get; set; }
 
         #endregion
 
@@ -24,6 +29,20 @@ namespace Engine
 
         public override void LoadContent()
         {
+            #region Backgrounds
+
+            Backgrounds.Add("Hospital", Content.Load<Texture2D>("Background\\Hospital"));
+            Backgrounds.Add("Candy Kingdom", Content.Load<Texture2D>("Background\\CandyKingdom"));
+
+            #endregion
+
+            #region Characters
+
+            Characters.Add("Finn", Content.Load<Texture2D>("Finn"));
+            Characters.Add("Fiona", Content.Load<Texture2D>("Fiona"));
+
+            #endregion
+
             ContentLoaded = true;
         }
 
@@ -72,6 +91,7 @@ namespace Engine
                 Game1.Manager.GraphicsDevice.Clear(BCol);
                 #endregion
 
+                
             }
         }
 

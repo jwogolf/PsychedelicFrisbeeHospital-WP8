@@ -11,9 +11,7 @@ namespace Engine
 
         #region Constructor
 
-        //Kevin is Player 1
-        //Zaq is Player 2
-        public GameScreen(Texture2D Background, Player Kevin, Player Zaq)
+        public GameScreen(Texture2D Background, Player Left, Player Right)
         {
 
         }

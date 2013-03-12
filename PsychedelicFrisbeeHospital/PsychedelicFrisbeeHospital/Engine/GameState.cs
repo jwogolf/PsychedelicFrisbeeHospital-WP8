@@ -82,6 +82,7 @@ namespace Engine
         #region Members
 
         public ContentManager Content { get; set; }
+        public SpriteBatch Batch { get; set; }
 
         public bool ContentLoaded { get; set; }
         public bool Updates { get; set; }
@@ -92,6 +93,7 @@ namespace Engine
         public Screen()
         {
             Content = new ContentManager(Game1.IServiceProvider, "Content");
+            Batch = new SpriteBatch(Graphics.Device);
 
             ContentLoaded = false;
             Updates = true;
