@@ -10,9 +10,12 @@ namespace Engine
         #region Members
 
         private Random Rand = new Random(DateTime.Now.Millisecond);
-   
-        Dictionary<string, Texture2D> Backgrounds { get; set; }
-        Dictionary<string, Texture2D> Characters { get; set; }
+
+        private List<KeyValuePair<string, Texture2D>> Backgrounds { get; set; }
+        private List<KeyValuePair<string, Texture2D>> Characters { get; set; }
+
+        private int Bindex = 0;
+        private int Cindex = 0;
 
         #endregion
 
@@ -20,7 +23,8 @@ namespace Engine
 
         public override void Initialize()
         {
-
+            Backgrounds = new List<KeyValuePair<string, Texture2D>>();
+            Characters = new List<KeyValuePair<string, Texture2D>>();
         }
 
         #endregion
@@ -31,15 +35,15 @@ namespace Engine
         {
             #region Backgrounds
 
-            Backgrounds.Add("Hospital", Content.Load<Texture2D>("Background\\Hospital"));
-            Backgrounds.Add("Candy Kingdom", Content.Load<Texture2D>("Background\\CandyKingdom"));
+            Backgrounds.Add(new KeyValuePair<string, Texture2D>("Hospital", Content.Load<Texture2D>("Backgrounds\\Hospital")));
+            Backgrounds.Add(new KeyValuePair<string, Texture2D>("Candy Kingdom", Content.Load<Texture2D>("Backgrounds\\CandyKingdom")));
 
             #endregion
 
             #region Characters
 
-            Characters.Add("Finn", Content.Load<Texture2D>("Finn"));
-            Characters.Add("Fiona", Content.Load<Texture2D>("Fiona"));
+            Characters.Add(new KeyValuePair<string, Texture2D>("Finn", Content.Load<Texture2D>("Characters\\Finn")));
+            Characters.Add(new KeyValuePair<string, Texture2D>("Fiona", Content.Load<Texture2D>("Characters\\Fiona")));
 
             #endregion
 
@@ -53,6 +57,7 @@ namespace Engine
         public override void UnloadContent()
         {
             Content.Unload();
+            Batch.Dispose();
             ContentLoaded = false;
         }
 
@@ -91,7 +96,11 @@ namespace Engine
                 Game1.Manager.GraphicsDevice.Clear(BCol);
                 #endregion
 
-                
+                Batch.Begin();
+
+                Batch.Draw(Backgrounds[Bindex].Value, new Rectangle(20, 20, Backgrounds[Bindex].Value.Width / 2, Backgrounds[Bindex].Value.Height / 2), Color.White);
+
+                Batch.End();
             }
         }
 
