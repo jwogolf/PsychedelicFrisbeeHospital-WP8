@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +16,12 @@ namespace Engine
         private List<KeyValuePair<string, Texture2D>> Characters { get; set; }
 
         private int Bindex = 0;
-        private int Cindex = 0;
+        private int P1index = 0; 
+        private int P2index = 0;
+
+        private Rectangle BRectangle;
+        private Rectangle P1Rectangle;
+        private Rectangle P2Rectangle;
 
         #endregion
 
@@ -25,6 +31,8 @@ namespace Engine
         {
             Backgrounds = new List<KeyValuePair<string, Texture2D>>();
             Characters = new List<KeyValuePair<string, Texture2D>>();
+
+            
         }
 
         #endregion
@@ -46,6 +54,8 @@ namespace Engine
             Characters.Add(new KeyValuePair<string, Texture2D>("Fiona", Content.Load<Texture2D>("Characters\\Fiona")));
 
             #endregion
+
+
 
             ContentLoaded = true;
         }
@@ -69,7 +79,24 @@ namespace Engine
         {
             if (Updates)
             {
+                #region Rectangles
 
+                Vector2 BBottomRight = new Vector2(Backgrounds[Bindex].Value.Width, Backgrounds[Bindex].Value.Height);
+                BRectangle = new Rectangle(Graphics.Width / 2 - (int)BBottomRight.X / 4, (int)BBottomRight.Y / 4, (int)BBottomRight.X / 2, (int)BBottomRight.Y / 2);
+
+                Vector2 P1BottomRight = new Vector2(Characters[P1index].Value.Width, Characters[P1index].Value.Height);
+                Vector2 P2BottomRight = new Vector2(Characters[P1index].Value.Width, Characters[P2index].Value.Height);
+                P1Rectangle = new Rectangle(Graphics.Width / 4 - (int)P1BottomRight.X / 2, Graphics.Height / 4 * 3 - (int)P1BottomRight.Y / 2, (int)P1BottomRight.X, (int)P1BottomRight.Y);
+                P2Rectangle = new Rectangle(Graphics.Width / 4 * 3 - (int)P2BottomRight.X / 2, Graphics.Height / 4 * 3 - (int)P2BottomRight.Y / 2, (int)P2BottomRight.X, (int)P2BottomRight.Y);
+
+                #endregion
+
+
+                TouchCollection tc = TouchPanel.GetState();
+                foreach (TouchLocation tl in tc)
+                {
+
+                }
             }
         }
 
@@ -101,18 +128,16 @@ namespace Engine
 
                 #region Background
 
-                Vector2 BBottomRight = new Vector2(Backgrounds[Bindex].Value.Width, Backgrounds[Bindex].Value.Height);
 
-                Batch.Draw(Backgrounds[Bindex].Value, new Rectangle(Graphics.Width / 2, (int)BBottomRight.Y / 2, (int)BBottomRight.X / 2, (int)BBottomRight.Y / 2), null, Color.White, 0, BBottomRight / 2, SpriteEffects.None, 0);
+                Batch.Draw(Backgrounds[Bindex].Value, BRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
 
                 #endregion 
                 
-                #region Player 1
+                #region Players
 
-                Vector2 CBottomRight = new Vector2(Characters[Cindex].Value.Width, Characters[Cindex].Value.Height);
 
-                Batch.Draw(Characters[Cindex].Value, new Rectangle(Graphics.Width / 4, Graphics.Height / 4 * 3, (int)CBottomRight.X, (int)CBottomRight.Y), null, Color.White, 0, CBottomRight / 2, SpriteEffects.None, 0);
-                Batch.Draw(Characters[Cindex].Value, new Rectangle(Graphics.Width / 4 * 3, Graphics.Height / 4 * 3, (int)CBottomRight.X, (int)CBottomRight.Y), null, Color.White, 0, CBottomRight / 2, SpriteEffects.FlipHorizontally, 0);
+                Batch.Draw(Characters[P1index].Value, P1Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                Batch.Draw(Characters[P2index].Value, P2Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
 
                 #endregion
 
