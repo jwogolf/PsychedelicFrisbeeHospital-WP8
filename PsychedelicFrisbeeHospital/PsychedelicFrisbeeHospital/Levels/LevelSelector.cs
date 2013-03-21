@@ -85,7 +85,8 @@ namespace Engine
         {
             if (Draws)
             {
-                #region Background
+                #region Flashing
+
                 CurrentGameTime = gameTime.TotalGameTime.TotalSeconds;
                 if (CurrentGameTime - PreviousGameTime > 0.25)
                 {
@@ -98,7 +99,22 @@ namespace Engine
 
                 Batch.Begin();
 
-                Batch.Draw(Backgrounds[Bindex].Value, new Rectangle(20, 20, Backgrounds[Bindex].Value.Width / 2, Backgrounds[Bindex].Value.Height / 2), Color.White);
+                #region Background
+
+                Vector2 BBottomRight = new Vector2(Backgrounds[Bindex].Value.Width, Backgrounds[Bindex].Value.Height);
+
+                Batch.Draw(Backgrounds[Bindex].Value, new Rectangle(Graphics.Width / 2, (int)BBottomRight.Y / 2, (int)BBottomRight.X / 2, (int)BBottomRight.Y / 2), null, Color.White, 0, BBottomRight / 2, SpriteEffects.None, 0);
+
+                #endregion 
+                
+                #region Player 1
+
+                Vector2 CBottomRight = new Vector2(Characters[Cindex].Value.Width, Characters[Cindex].Value.Height);
+
+                Batch.Draw(Characters[Cindex].Value, new Rectangle(Graphics.Width / 4, Graphics.Height / 4 * 3, (int)CBottomRight.X, (int)CBottomRight.Y), null, Color.White, 0, CBottomRight / 2, SpriteEffects.None, 0);
+                Batch.Draw(Characters[Cindex].Value, new Rectangle(Graphics.Width / 4 * 3, Graphics.Height / 4 * 3, (int)CBottomRight.X, (int)CBottomRight.Y), null, Color.White, 0, CBottomRight / 2, SpriteEffects.FlipHorizontally, 0);
+
+                #endregion
 
                 Batch.End();
             }
