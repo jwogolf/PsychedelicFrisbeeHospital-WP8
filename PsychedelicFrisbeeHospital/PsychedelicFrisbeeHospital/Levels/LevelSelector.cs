@@ -11,6 +11,8 @@ namespace Engine
         #region Members
 
         private Random Rand = new Random(DateTime.Now.Millisecond);
+        double CurrentGameTime = 0;
+        double PreviousGameTime = 0;
 
         private List<KeyValuePair<string, Texture2D>> Backgrounds { get; set; }
         private List<KeyValuePair<string, Texture2D>> Characters { get; set; }
@@ -93,9 +95,14 @@ namespace Engine
 
 
                 TouchCollection tc = TouchPanel.GetState();
+
                 foreach (TouchLocation tl in tc)
                 {
-
+                    //if ()
+                    {
+                        if (BRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
+                        
+                    }
                 }
             }
         }
@@ -104,8 +111,6 @@ namespace Engine
 
         #region Draw
 
-        double CurrentGameTime = 0;
-        double PreviousGameTime = 0;
         Color BCol = Color.Black;
 
         public override void Draw(GameTime gameTime)
@@ -115,19 +120,21 @@ namespace Engine
                 #region Flashing
 
                 CurrentGameTime = gameTime.TotalGameTime.TotalSeconds;
+
                 if (CurrentGameTime - PreviousGameTime > 0.25)
                 {
                     BCol = new Color((float)Rand.NextDouble(), (float)Rand.NextDouble(), (float)Rand.NextDouble());
                     PreviousGameTime = CurrentGameTime;
                 }
 
+
                 Game1.Manager.GraphicsDevice.Clear(BCol);
+
                 #endregion
 
                 Batch.Begin();
 
                 #region Background
-
 
                 Batch.Draw(Backgrounds[Bindex].Value, BRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
 
