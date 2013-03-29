@@ -98,7 +98,7 @@ namespace Engine
 
                 foreach (TouchLocation tl in tc)
                 {
-                    //if ()
+                    if ()
                     {
                         if (BRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
                         
