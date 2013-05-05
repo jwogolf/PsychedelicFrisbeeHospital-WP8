@@ -98,10 +98,17 @@ namespace Engine
 
                 foreach (TouchLocation tl in tc)
                 {
-                    if ()
+                    if (tl.State == TouchLocationState.Pressed)
                     {
-                        if (BRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
-                        
+                        if (BRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y))
+                        {
+                            if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
+                        }
+                        else
+                        {
+                            if (P1Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P1index >= Characters.Count - 1) P1index = 0; else P1index++;
+                            if (P2Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P2index >= Characters.Count - 1) P2index = 0; else P2index++;
+                        }
                     }
                 }
             }
