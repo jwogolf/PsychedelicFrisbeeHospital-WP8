@@ -54,6 +54,8 @@ namespace Engine
 
             Characters.Add(new KeyValuePair<string, Texture2D>("Finn", Content.Load<Texture2D>("Characters\\Finn")));
             Characters.Add(new KeyValuePair<string, Texture2D>("Fiona", Content.Load<Texture2D>("Characters\\Fiona")));
+            Characters.Add(new KeyValuePair<string, Texture2D>("Kevin", Content.Load<Texture2D>("Characters\\Kevin2")));
+            Characters.Add(new KeyValuePair<string, Texture2D>("Zaq", Content.Load<Texture2D>("Characters\\zaq2")));
 
             #endregion
 
@@ -87,7 +89,7 @@ namespace Engine
                 BRectangle = new Rectangle(Graphics.Width / 2 - (int)BBottomRight.X / 4, (int)BBottomRight.Y / 4, (int)BBottomRight.X / 2, (int)BBottomRight.Y / 2);
 
                 Vector2 P1BottomRight = new Vector2(Characters[P1index].Value.Width, Characters[P1index].Value.Height);
-                Vector2 P2BottomRight = new Vector2(Characters[P1index].Value.Width, Characters[P2index].Value.Height);
+                Vector2 P2BottomRight = new Vector2(Characters[P2index].Value.Width, Characters[P2index].Value.Height);
                 P1Rectangle = new Rectangle(Graphics.Width / 4 - (int)P1BottomRight.X / 2, Graphics.Height / 4 * 3 - (int)P1BottomRight.Y / 2, (int)P1BottomRight.X, (int)P1BottomRight.Y);
                 P2Rectangle = new Rectangle(Graphics.Width / 4 * 3 - (int)P2BottomRight.X / 2, Graphics.Height / 4 * 3 - (int)P2BottomRight.Y / 2, (int)P2BottomRight.X, (int)P2BottomRight.Y);
 
@@ -102,12 +104,12 @@ namespace Engine
                     {
                         if (BRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y))
                         {
-                            if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
+                            if (P1Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P1index >= Characters.Count - 1) P1index = 0; else P1index++;
+                            if (P2Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P2index >= Characters.Count - 1) P2index = 0; else P2index++; 
                         }
                         else
                         {
-                            if (P1Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P1index >= Characters.Count - 1) P1index = 0; else P1index++;
-                            if (P2Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P2index >= Characters.Count - 1) P2index = 0; else P2index++;
+                            if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
                         }
                     }
                 }
@@ -126,16 +128,19 @@ namespace Engine
             {
                 #region Flashing
 
-                CurrentGameTime = gameTime.TotalGameTime.TotalSeconds;
+                //CurrentGameTime = gameTime.TotalGameTime.TotalSeconds;
 
-                if (CurrentGameTime - PreviousGameTime > 0.25)
-                {
-                    BCol = new Color((float)Rand.NextDouble(), (float)Rand.NextDouble(), (float)Rand.NextDouble());
-                    PreviousGameTime = CurrentGameTime;
-                }
+                //if (CurrentGameTime - PreviousGameTime > 0.25)
+               // {
+                //    BCol = new Color((float)Rand.NextDouble(), (float)Rand.NextDouble(), (float)Rand.NextDouble());
+                //    PreviousGameTime = CurrentGameTime;
+               // }
 
 
-                Game1.Manager.GraphicsDevice.Clear(BCol);
+                //Game1.Manager.GraphicsDevice.Clear(BCol);
+
+                
+                Game1.Manager.GraphicsDevice.Clear(Color.CornflowerBlue);
 
                 #endregion
 
@@ -143,7 +148,7 @@ namespace Engine
 
                 #region Background
 
-                Batch.Draw(Backgrounds[Bindex].Value, BRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                Batch.Draw(Backgrounds[Bindex].Value, Vector2.Zero, null, Color.White, 0, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
 
                 #endregion 
                 
