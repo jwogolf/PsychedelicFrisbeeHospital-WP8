@@ -100,24 +100,35 @@ namespace Engine
 
                 foreach (TouchLocation tl in tc)
                 {
+                    #region Selector
+
                     if (tl.State == TouchLocationState.Pressed)
                     {
-                        if (BRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y))
+                        if (Graphics.Device.Viewport.Bounds.Contains((int)tl.Position.X, (int)tl.Position.Y))
                         {
-                            if (P1Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P1index >= Characters.Count - 1) P1index = 0; else P1index++;
-                            if (P2Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y)) if (P2index >= Characters.Count - 1) P2index = 0; else P2index++; 
+                            if (P1Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y))
+                            {
+                                if (P1index >= Characters.Count - 1) P1index = 0; else P1index++;
+                            }
+                            else if (P2Rectangle.Contains((int)tl.Position.X, (int)tl.Position.Y))
+                            {
+                                if (P2index >= Characters.Count - 1) P2index = 0; else P2index++;
+                            }
+                            else
+                            {
+                                if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
+                            }
                         }
-                        else
-                        {
-                            if (Bindex >= Backgrounds.Count - 1) Bindex = 0; else Bindex++;
-                        }
+
+                    #endregion
+
                     }
                 }
             }
         }
 
         #endregion
-
+        
         #region Draw
 
         Color BCol = Color.Black;
@@ -148,12 +159,11 @@ namespace Engine
 
                 #region Background
 
-                Batch.Draw(Backgrounds[Bindex].Value, Vector2.Zero, null, Color.White, 0, Vector2.Zero, Vector2.Zero, SpriteEffects.None, 0);
+                Batch.Draw(Backgrounds[Bindex].Value, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                 #endregion 
                 
                 #region Players
-
 
                 Batch.Draw(Characters[P1index].Value, P1Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
                 Batch.Draw(Characters[P2index].Value, P2Rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
