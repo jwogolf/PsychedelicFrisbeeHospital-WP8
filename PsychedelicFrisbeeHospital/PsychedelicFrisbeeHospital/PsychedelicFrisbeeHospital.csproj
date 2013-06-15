@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class.cs" />
+    <Compile Include="Engine\Utilities.cs" />
     <Compile Include="Engine\Constants.cs" />
     <Compile Include="Engine\GameState.cs" />
     <Compile Include="Engine\Graphics.cs" />
@@ -74,8 +75,8 @@
     <Compile Include="Engine\Special Screens\LoadingScreen.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Player.cs" />
-    <Compile Include="Levels\GameScreen.cs" />
-    <Compile Include="Levels\LevelSelector.cs" />
+    <Compile Include="Engine\Levels\GameScreen.cs" />
+    <Compile Include="Engine\Levels\LevelSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
