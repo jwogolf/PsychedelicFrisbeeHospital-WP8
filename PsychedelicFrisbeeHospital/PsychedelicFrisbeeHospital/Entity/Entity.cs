@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Engine
 {
-    public class Entity
+    public abstract class Entity
     {
         #region Members
 
+        public float Mass { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
-        public Vector2 Acceleration { get; set; }
+        public Vector2 Force { get; set; }
 
         public Vector2 Origin { get; set; }
 
@@ -23,22 +24,37 @@ namespace Engine
 
         #region Constructor
 
+        public Entity(Texture2D Texture, Vector2 Origin)
+        {
+            this.Texture = Texture;
+            this.Origin = Origin;
+
+            this.Mass = 1;
+        }
+
         #endregion
 
         #region Methods
 
-        public void Update(GameTime Time)
+        public virtual void Update(GameTime Time)
         {
             #region Physics
 
-            Position += Velocity;
-            Velocity += Acceleration;
+            Vector2 Previous = Velocity;
+
+            Velocity += ((Force / Mass) + new Vector2(0, 9.8f)) / 2 * (float)Time.ElapsedGameTime.TotalSeconds;
+            Position += Velocity * (float)Time.ElapsedGameTime.TotalSeconds;
 
             #endregion
 
             Direction = Velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-            Acceleration = Vector2.Zero;
+            Force = Vector2.Zero;
+            if (this.Position.Y - 30 > Graphics.Height)
+            {
+                Position = new Vector2(Position.X, Graphics.Height - 30);
+
+            }
         }
 
         public void Draw(GameTime Time, SpriteBatch Batch)

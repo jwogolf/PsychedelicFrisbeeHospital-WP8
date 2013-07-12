@@ -100,6 +100,11 @@ namespace Engine
             Draws = true;
         }
 
+        ~Screen()
+        {
+            //if (!Batch.IsDisposed) Batch.Dispose();
+        }
+
         public abstract void Initialize();
         public abstract void LoadContent();
         public abstract void UnloadContent();

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Engine
 {
@@ -7,13 +9,31 @@ namespace Engine
     {
         #region Members
 
+        private List<Entity> Entities;
+
+        private Texture2D Background;
+
         #endregion
 
         #region Constructor
 
-        public GameScreen(Texture2D Background, Player Left, Player Right)
+        public GameScreen(ContentManager Content, Texture2D Background, Player Left, Player Right)
         {
+            this.Content.Unload();
+            this.Content.Dispose();
+            this.Content = Content;
 
+
+            Entities = new List<Entity>();
+
+            //Do some stuff to Left and Right before adding them
+            Left.Position = new Vector2(60, 420);
+            Right.Position = new Vector2(730, 420);
+
+            Entities.Add(Left);
+            Entities.Add(Right);
+
+            this.Background = Background;
         }
 
         #endregion
@@ -31,6 +51,8 @@ namespace Engine
 
         public override void LoadContent()
         {
+            string s = Background.Name;
+
             ContentLoaded = true;
         }
 
@@ -41,6 +63,7 @@ namespace Engine
         public override void UnloadContent()
         {
             Content.Unload();
+            Batch.Dispose();
             ContentLoaded = false;
         }
 
@@ -52,7 +75,7 @@ namespace Engine
         {
             if (Updates)
             {
-
+                //foreach (Entity e in Entities) e.Update(gameTime);
             }
         }
 
@@ -65,6 +88,14 @@ namespace Engine
             if (Draws)
             {
                 Game1.Manager.GraphicsDevice.Clear(Color.Green);
+
+                Batch.Begin();
+
+                Batch.Draw(Background, Vector2.Zero, Color.White);
+
+                foreach (Entity e in Entities) e.Draw(gameTime, Batch);
+
+                Batch.End();
             }
         }
 

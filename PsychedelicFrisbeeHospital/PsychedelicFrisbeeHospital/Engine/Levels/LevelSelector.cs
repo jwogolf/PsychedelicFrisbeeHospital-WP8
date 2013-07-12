@@ -75,7 +75,6 @@ namespace Engine
 
         public override void UnloadContent()
         {
-            Content.Unload();
             Batch.Dispose();
             ContentLoaded = false;
         }
@@ -95,8 +94,8 @@ namespace Engine
 
                 Vector2 PleftBottomRight = new Vector2(Characters[Pleftindex].Value.Width, Characters[Pleftindex].Value.Height);
                 Vector2 PrightBottomRight = new Vector2(Characters[Prightindex].Value.Width, Characters[Prightindex].Value.Height);
-                PleftRectangle = new Rectangle(Graphics.Width / 4 - (int)PleftBottomRight.X / 2, Graphics.Height / 4 * 3 - (int)PleftBottomRight.Y / 2, (int)PleftBottomRight.X, (int)PleftBottomRight.Y);
-                PrightRectangle = new Rectangle(Graphics.Width / 4 * 3 - (int)PrightBottomRight.X / 2, Graphics.Height / 4 * 3 - (int)PrightBottomRight.Y / 2, (int)PrightBottomRight.X, (int)PrightBottomRight.Y);
+                PleftRectangle = new Rectangle(Graphics.Width / 4 - (int)PleftBottomRight.X / 2 - 60, Graphics.Height / 4 * 3 - (int)PleftBottomRight.Y / 2, (int)PleftBottomRight.X, (int)PleftBottomRight.Y);
+                PrightRectangle = new Rectangle(Graphics.Width / 4 * 3 - (int)PrightBottomRight.X / 2 + 60, Graphics.Height / 4 * 3 - (int)PrightBottomRight.Y / 2, (int)PrightBottomRight.X, (int)PrightBottomRight.Y);
 
                 StartTripRectangle = new Rectangle(Graphics.Width / 2 - StartTripTex.Width / 2, Graphics.Height / 4 * 3 - StartTripTex.Height, StartTripTex.Width, StartTripTex.Height);
 
@@ -118,7 +117,7 @@ namespace Engine
                             {
                                 if (Pleftindex >= Characters.Count - 1) Pleftindex = 0; else Pleftindex++;
                             }
-                            else if (Utilities.PadRectangle(PrightRectangle, 1.2f, 1.03f).Contains((int)tl.Position.X, (int)tl.Position.Y))
+                            else if (Utilities.PadRectangle(PrightRectangle, 1.25f, 1.04f).Contains((int)tl.Position.X, (int)tl.Position.Y))
                             {
                                 if (Prightindex >= Characters.Count - 1) Prightindex = 0; else Prightindex++;
                             }
@@ -149,10 +148,42 @@ namespace Engine
                             {
                                 StartPressed = false;
 
-                                Player PlayerLeft = new Player(Characters[Pleftindex].Value);
-                                Player PlayerRight = new Player(Characters[Prightindex].Value);
+                                Texture2D leftTex = Characters[Pleftindex].Value;
+                                Texture2D rightTex = Characters[Prightindex].Value;
+                                Texture2D Background = Backgrounds[Bindex].Value;
 
-                                GameState.AddScreen(new GameScreen(Backgrounds[Bindex].Value, PlayerLeft, PlayerRight));
+                                Backgrounds.RemoveAt(Bindex);
+
+                                //logic is wierd here since upon removing indices change
+                                //Consider revisiting seperate content managers per Screen
+                                if (Pleftindex == Prightindex)
+                                {
+                                    Characters.RemoveAt(Pleftindex);
+                                }
+                                else if (Pleftindex < Prightindex)
+                                {
+                                    Prightindex--;
+                                    Characters.RemoveAt(Pleftindex);
+                                    Characters.RemoveAt(Prightindex);
+                                }
+                                else if (Pleftindex > Prightindex)
+                                {
+                                    Characters.RemoveAt(Pleftindex);
+                                    Characters.RemoveAt(Prightindex);
+                                }
+
+                                //Manually dispose of unneeded content
+                                foreach (var pair in Backgrounds) pair.Value.Dispose();
+                                foreach (var pair in Characters) pair.Value.Dispose();
+
+                                StartTripPressedTex.Dispose();
+                                StartTripTex.Dispose();
+
+
+                                Player PlayerLeft = new Player(leftTex);
+                                Player PlayerRight = new Player(rightTex);
+
+                                GameState.AddScreen(new GameScreen(Content, Background, PlayerLeft, PlayerRight));
                                 GameState.RemoveScreen(this);
                             }
                         }
@@ -209,8 +240,8 @@ namespace Engine
                     Batch.Draw(StartTripTex, StartTripRectangle, null, new Color(255, 255, 255, 100), 0, Vector2.Zero, SpriteEffects.None, 0);
                 }
 
-
-                Batch.End();
+                if(!Batch.IsDisposed)
+                    Batch.End();
             }
         }
 

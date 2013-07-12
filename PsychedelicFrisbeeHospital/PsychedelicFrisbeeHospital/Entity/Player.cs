@@ -14,8 +14,9 @@ namespace Engine
         #region Constructor
 
         public Player(Texture2D Texture)
+            : base(Texture, new Vector2(Texture.Width / 2, Texture.Height / 2))
         {
-
+            
         }
 
         #endregion
