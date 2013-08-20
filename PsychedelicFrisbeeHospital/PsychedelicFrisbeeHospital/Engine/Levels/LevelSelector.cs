@@ -183,6 +183,9 @@ namespace Engine
                                 Player PlayerLeft = new Player(leftTex);
                                 Player PlayerRight = new Player(rightTex);
 
+                                base.Updates = false;
+                                base.Draws = false;
+
                                 GameState.AddScreen(new GameScreen(Content, Background, PlayerLeft, PlayerRight));
                                 GameState.RemoveScreen(this);
                             }

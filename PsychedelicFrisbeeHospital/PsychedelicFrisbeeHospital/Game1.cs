@@ -49,9 +49,7 @@ namespace Engine
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
+            Input.Update();
             GameState.Update(gameTime);
 
             base.Update(gameTime);

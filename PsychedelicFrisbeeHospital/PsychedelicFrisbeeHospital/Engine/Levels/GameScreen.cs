@@ -27,8 +27,8 @@ namespace Engine
             Entities = new List<Entity>();
 
             //Do some stuff to Left and Right before adding them
-            Left.Position = new Vector2(60, 420);
-            Right.Position = new Vector2(730, 420);
+            Left.Position = new Vector2(60, 120);
+            Right.Position = new Vector2(730, 120);
 
             Entities.Add(Left);
             Entities.Add(Right);
@@ -75,7 +75,7 @@ namespace Engine
         {
             if (Updates)
             {
-                //foreach (Entity e in Entities) e.Update(gameTime);
+                foreach (Entity e in Entities) e.Update(gameTime);
             }
         }
 
