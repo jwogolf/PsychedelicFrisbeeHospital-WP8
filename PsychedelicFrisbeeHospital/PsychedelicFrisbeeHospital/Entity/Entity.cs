@@ -20,6 +20,8 @@ namespace Engine
 
         public SpriteEffects Direction { get; set; }
 
+        public bool PlayerOnLeftSide { get; protected set; }
+
         #endregion
 
         #region Constructor

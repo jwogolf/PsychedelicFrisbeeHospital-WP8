@@ -27,7 +27,8 @@ namespace Engine
         private Rectangle PrightRectangle;
         private Rectangle StartTripRectangle;
 
-        private bool StartPressed;
+        private bool StartPressed; //has the start button been pressed?
+        private bool OnLeftSide = true; //is the player playing on the left side?
 
         #endregion
 
@@ -37,8 +38,6 @@ namespace Engine
         {
             Backgrounds = new List<KeyValuePair<string, Texture2D>>();
             Characters = new List<KeyValuePair<string, Texture2D>>();
-
-            
         }
 
         #endregion
@@ -82,6 +81,7 @@ namespace Engine
         #endregion
 
         #region Update
+
         int startId;
         public override void Update(GameTime gameTime)
         {
@@ -103,9 +103,7 @@ namespace Engine
 
                 #endregion
 
-                TouchCollection tc = TouchPanel.GetState();
-
-                foreach (TouchLocation tl in tc)
+                foreach (TouchLocation tl in Input.Touches)
                 {
                     #region Selector
 
@@ -115,17 +113,33 @@ namespace Engine
                         {
                             if (Utilities.PadRectangle(PleftRectangle, 1.2f, 1.03f).Contains((int)tl.Position.X, (int)tl.Position.Y))
                             {
-                                if (Pleftindex >= Characters.Count - 1) Pleftindex = 0; else Pleftindex++;
+                                if (OnLeftSide)
+                                {
+                                    if (Pleftindex >= Characters.Count - 1) Pleftindex = 0; else Pleftindex++;
+                                }
+                                else
+                                {
+                                    OnLeftSide = true;
+                                }
                             }
                             else if (Utilities.PadRectangle(PrightRectangle, 1.25f, 1.04f).Contains((int)tl.Position.X, (int)tl.Position.Y))
                             {
-                                if (Prightindex >= Characters.Count - 1) Prightindex = 0; else Prightindex++;
+                                //This code is for the right player selection
+                                //if (Prightindex >= Characters.Count - 1) Prightindex = 0; else Prightindex++;
+
+                                if (!OnLeftSide)
+                                {
+                                    if (Pleftindex >= Characters.Count - 1) Pleftindex = 0; else Pleftindex++;
+                                }
+                                else
+                                {
+                                    OnLeftSide = false;
+                                }
                             }
                             else if (StartTripRectangle.Contains((int)tl.Position.X, (int)tl.Position.Y))
                             {
                                 StartPressed = true;
                                 startId = tl.Id;
-                                
                             }
                             else
                             {
@@ -149,7 +163,7 @@ namespace Engine
                                 StartPressed = false;
 
                                 Texture2D leftTex = Characters[Pleftindex].Value;
-                                Texture2D rightTex = Characters[Prightindex].Value;
+                                Texture2D rightTex = Characters[Rand.Next(Characters.Count - 1)].Value; //Just make it random
                                 Texture2D Background = Backgrounds[Bindex].Value;
 
                                 Backgrounds.RemoveAt(Bindex);
@@ -180,13 +194,14 @@ namespace Engine
                                 StartTripTex.Dispose();
 
 
-                                Player PlayerLeft = new Player(leftTex);
-                                Player PlayerRight = new Player(rightTex);
+                                Player player = new Player(leftTex);
+                                Robot robot = new Robot(rightTex);
 
+                                //Exceptions can throw if you try to draw disposed content
                                 base.Updates = false;
                                 base.Draws = false;
 
-                                GameState.AddScreen(new GameScreen(Content, Background, PlayerLeft, PlayerRight));
+                                GameState.AddScreen(new GameScreen(Content, Background, player, robot, OnLeftSide));
                                 GameState.RemoveScreen(this);
                             }
                         }
@@ -230,9 +245,18 @@ namespace Engine
                 //Draw Background
                 Batch.Draw(Backgrounds[Bindex].Value, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
-                //Draw Players
-                Batch.Draw(Characters[Pleftindex].Value, PleftRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
-                Batch.Draw(Characters[Prightindex].Value, PrightRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+                //Draw Player
+                if (OnLeftSide)
+                {
+                    Batch.Draw(Characters[Pleftindex].Value, PleftRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    Batch.Draw(Characters[Pleftindex].Value, PrightRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+                }
+                
+                //Draw Right Player
+                //Batch.Draw(Characters[Prightindex].Value, PrightRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
 
                 if (StartPressed)
                 {
@@ -254,6 +278,5 @@ namespace Engine
 
 
         #endregion
-
     }
 }

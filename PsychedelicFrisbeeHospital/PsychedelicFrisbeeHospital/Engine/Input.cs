@@ -12,7 +12,7 @@ namespace Engine
 
         public static bool Side { get; set; }
 
-        private static TouchCollection Touches;
+        public static TouchCollection Touches;
 
         static Input()
         {

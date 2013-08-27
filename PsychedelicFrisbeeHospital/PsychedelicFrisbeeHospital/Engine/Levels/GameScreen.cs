@@ -17,7 +17,7 @@ namespace Engine
 
         #region Constructor
 
-        public GameScreen(ContentManager Content, Texture2D Background, Player Left, Player Right)
+        public GameScreen(ContentManager Content, Texture2D Background, Player player, Robot robot, bool OnLeftSide)
         {
             this.Content.Unload();
             this.Content.Dispose();
@@ -27,11 +27,19 @@ namespace Engine
             Entities = new List<Entity>();
 
             //Do some stuff to Left and Right before adding them
-            Left.Position = new Vector2(60, 120);
-            Right.Position = new Vector2(730, 120);
+            if (OnLeftSide)
+            {
+                player.Position = new Vector2(60, 120);
+                robot.Position = new Vector2(730, 120);
+            }
+            else
+            {
+                player.Position = new Vector2(730, 120);
+                robot.Position = new Vector2(60, 120);
+            }
 
-            Entities.Add(Left);
-            Entities.Add(Right);
+            Entities.Add(player);
+            Entities.Add(robot);
 
             this.Background = Background;
         }
@@ -93,7 +101,10 @@ namespace Engine
 
                 Batch.Draw(Background, Vector2.Zero, Color.White);
 
-                foreach (Entity e in Entities) e.Draw(gameTime, Batch);
+                foreach (Entity e in Entities)
+                {
+                    e.Draw(gameTime, Batch);
+                }
 
                 Batch.End();
             }
