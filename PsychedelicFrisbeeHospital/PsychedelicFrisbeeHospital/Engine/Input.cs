@@ -17,6 +17,8 @@ namespace Engine
         static Input()
         {
             TouchPanelCapabilities capabilities = TouchPanel.GetCapabilities();
+            TouchPanel.EnabledGestures = GestureType.Flick | GestureType.HorizontalDrag;
+            
 
             IsConnected = capabilities.IsConnected;
             MaximumTouchCount = capabilities.MaximumTouchCount;

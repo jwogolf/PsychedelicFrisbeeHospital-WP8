@@ -73,6 +73,7 @@
     <Compile Include="Engine\Screen1.cs" />
     <Compile Include="Engine\Special Screens\GameSettings.cs" />
     <Compile Include="Engine\Special Screens\LoadingScreen.cs" />
+    <Compile Include="Entity\FlyingDisc.cs" />
     <Compile Include="Entity\Robot.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Player.cs" />

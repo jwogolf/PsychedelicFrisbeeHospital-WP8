@@ -161,9 +161,9 @@ namespace Engine
                             if (startId == tl.Id)
                             {
                                 StartPressed = false;
-
+                                Prightindex = Rand.Next(Characters.Count - 1);
                                 Texture2D leftTex = Characters[Pleftindex].Value;
-                                Texture2D rightTex = Characters[Rand.Next(Characters.Count - 1)].Value; //Just make it random
+                                Texture2D rightTex = Characters[Prightindex].Value; //Just make it random
                                 Texture2D Background = Backgrounds[Bindex].Value;
 
                                 Backgrounds.RemoveAt(Bindex);
@@ -195,13 +195,13 @@ namespace Engine
 
 
                                 Player player = new Player(leftTex);
-                                Robot robot = new Robot(rightTex);
+                                Robot robot = new Robot(rightTex, player);
 
                                 //Exceptions can throw if you try to draw disposed content
                                 base.Updates = false;
                                 base.Draws = false;
 
-                                GameState.AddScreen(new GameScreen(Content, Background, player, robot, OnLeftSide));
+                                GameState.AddScreen(new LoadingScreen(new GameScreen(Content, Background, player, robot, OnLeftSide)));
                                 GameState.RemoveScreen(this);
                             }
                         }

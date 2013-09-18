@@ -9,14 +9,15 @@ namespace Engine
     {
         #region Members
 
-        public float Mass { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Velocity { get; set; }
-        public Vector2 Force { get; set; }
+        public bool Grounded { get; set; }
+        public float Mass;
+        public Vector2 Position;
+        public Vector2 Velocity;
+        public Vector2 Force;
 
-        public Vector2 Origin { get; set; }
+        public Vector2 Origin;
 
-        public Texture2D Texture { get; set; }
+        public Texture2D Texture;
 
         public SpriteEffects Direction { get; set; }
 
@@ -38,19 +39,23 @@ namespace Engine
 
         #region Methods
 
-        public virtual void Update(GameTime Time)
+        public virtual void Update(GameTime Time, FlyingDisc FlyingDisc)
         {
-            Vector2 Previous = Velocity;
-
             Velocity += (Force / Mass) + (new Vector2(0, 98f)) / 2 * (float)Time.ElapsedGameTime.TotalSeconds;
             Position += Velocity * (float)Time.ElapsedGameTime.TotalSeconds;
 
             Direction = Velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             Force = Vector2.Zero;
+
             if (this.Position.Y + Texture.Height > Graphics.Height)
             {
                 Position = new Vector2(Position.X, Graphics.Height - Texture.Height);
+                Grounded = true;
+            }
+            else
+            {
+                Grounded = false;
             }
         }
 

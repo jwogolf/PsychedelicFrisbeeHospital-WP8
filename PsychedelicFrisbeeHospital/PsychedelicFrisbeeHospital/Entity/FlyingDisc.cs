@@ -5,23 +5,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Engine
 {
-    public class Robot : Entity
+    public class FlyingDisc : Entity
     {
         #region Members
-
-        bool HasFlyingDisc = false;
-        bool FlyingDiscExiting = false;
-
-        Player Player;
 
         #endregion
 
         #region Constructor
 
-        public Robot(Texture2D Texture, Player Player)
+        public FlyingDisc(Texture2D Texture)
             : base(Texture, new Vector2(Texture.Width / 2, Texture.Height / 2))
         {
-
+            base.Mass = 1;
         }
 
         #endregion
@@ -30,9 +25,8 @@ namespace Engine
 
         public override void Update(GameTime Time, FlyingDisc FlyingDisc)
         {
-            base.Update(Time,FlyingDisc);
-
-            //if (HasFlyingDisc) FlyingDisc.Position = base.HandPosition - FlyingDisc.Origin;
+            
+            base.Update(Time, FlyingDisc);
         }
 
         #endregion

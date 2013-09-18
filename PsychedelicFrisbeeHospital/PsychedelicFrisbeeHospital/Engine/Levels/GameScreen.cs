@@ -9,9 +9,9 @@ namespace Engine
     {
         #region Members
 
-        private List<Entity> Entities;
-
         private Texture2D Background;
+
+        private List<Entity> Entities;
 
         #endregion
 
@@ -22,9 +22,6 @@ namespace Engine
             this.Content.Unload();
             this.Content.Dispose();
             this.Content = Content;
-
-
-            Entities = new List<Entity>();
 
             //Do some stuff to Left and Right before adding them
             if (OnLeftSide)
@@ -38,8 +35,11 @@ namespace Engine
                 robot.Position = new Vector2(60, 120);
             }
 
-            Entities.Add(player);
-            Entities.Add(robot);
+
+            FlyingDisc flyingDisc = new FlyingDisc(Content.Load<Texture2D>("General\\FlyingDisc"));
+            flyingDisc.Position = new Vector2(70, 110);
+
+            Entities = new List<Entity>(new List<Entity> { player, robot, flyingDisc });
 
             this.Background = Background;
         }
@@ -83,7 +83,7 @@ namespace Engine
         {
             if (Updates)
             {
-                foreach (Entity e in Entities) e.Update(gameTime);
+                foreach (Entity e in Entities) e.Update(gameTime, Entities[2] as FlyingDisc);
             }
         }
 
@@ -101,14 +101,15 @@ namespace Engine
 
                 Batch.Draw(Background, Vector2.Zero, Color.White);
 
-                foreach (Entity e in Entities)
-                {
-                    e.Draw(gameTime, Batch);
-                }
+                foreach (Entity e in Entities) e.Draw(gameTime, Batch);
 
                 Batch.End();
             }
         }
+
+        #endregion
+
+        #region Methods
 
         #endregion
     }
