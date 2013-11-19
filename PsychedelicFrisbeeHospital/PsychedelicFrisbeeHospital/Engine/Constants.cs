@@ -11,6 +11,8 @@ namespace Engine
 
         #region Physics
 
+        public static const float FrictionalForce = 0.4f;
+        public static const float Gravity = 98f;
 
         #endregion
 

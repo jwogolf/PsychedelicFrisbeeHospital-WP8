@@ -33,6 +33,8 @@ namespace Engine
 
         public override void Update(GameTime Time, FlyingDisc FlyingDisc)
         {
+            base.Update(Time, FlyingDisc);
+
             HandPosition = Position + new Vector2(45, 55);
             if (Vector2.Distance(HandPosition, FlyingDisc.Position) < 100) 
             { 
@@ -47,10 +49,12 @@ namespace Engine
                     if (Touch.Position.X < Graphics.Width / 2)
                     {
                         this.Force = base.Grounded ? new Vector2(-50, 0) : new Vector2(-25, 0);
+                        base.Direction = SpriteEffects.FlipHorizontally;
                     }
                     else
                     {
-                        this.Force = base.Grounded ? new Vector2(50, 0) : new Vector2(25, 0);
+                        this.Force = base.Grounded ? new Vector2(50, 0) : new Vector2(25, 0); 
+                        base.Direction = SpriteEffects.None;
                     }
                 }
             }
@@ -78,7 +82,6 @@ namespace Engine
                 }
             }
             
-            base.Update(Time, FlyingDisc);
 
             if (HasFlyingDisc) FlyingDisc.Position = HandPosition - FlyingDisc.Origin;
         }

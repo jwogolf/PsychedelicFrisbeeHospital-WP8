@@ -41,7 +41,7 @@ namespace Engine
 
         public virtual void Update(GameTime Time, FlyingDisc FlyingDisc)
         {
-            Velocity += (Force / Mass) + (new Vector2(0, 98f)) / 2 * (float)Time.ElapsedGameTime.TotalSeconds;
+            Velocity += (Force / Mass) + (new Vector2(0, Constants.Gravity)) / 2 * (float)Time.ElapsedGameTime.TotalSeconds;
             Position += Velocity * (float)Time.ElapsedGameTime.TotalSeconds;
 
             Direction = Velocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
